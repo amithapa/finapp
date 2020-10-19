@@ -2,6 +2,10 @@ package v1
 
 import (
 	"encoding/json"
+	"net/http"
+
+	"github.com/amithapa/finapp/internal/config"
+	"github.com/sirupsen/logrus"
 )
 
 //API for returning version
@@ -22,5 +26,13 @@ func init() {
 	})
 	if err != nil {
 		panic(err)
+	}
+}
+
+func VersionHandler(w http.ResponseWriter, _ *http.Request) {
+	w.WriteHeader(http.StatusOK)
+
+	if _, err := w.Write(versionJSON); err != nil {
+		logrus.WithError(err).Debug("Error writing version.")
 	}
 }
